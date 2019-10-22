@@ -1,9 +1,11 @@
-FROM alpine:3.9
-ARG CLOUD_SDK_VERSION=258.0.0
+FROM docker:17.12.0-ce as static-docker-source
+
+FROM alpine:3.10
+ARG CLOUD_SDK_VERSION=267.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 
 ENV PATH /google-cloud-sdk/bin:$PATH
-ADD .bashrc /root/.bashrc
+COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN apk --no-cache add \
         curl \
         python \
