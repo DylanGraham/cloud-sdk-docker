@@ -18,7 +18,8 @@ RUN apk --no-cache add \
     git \
     gnupg \
     bash-completion \
-    && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    ncurses && \
+    curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     gcloud config set core/disable_usage_reporting true && \
@@ -29,6 +30,9 @@ RUN apk --no-cache add \
     curl -LO https://git.io/get_helm.sh && \
     chmod +x get_helm.sh && \
     ./get_helm.sh --version ${HELM_VERSION} && \
-    helm init --client-only
+    helm init --client-only && \
+    git clone https://github.com/ahmetb/kubectx.git ~/.kubectx && \
+    ln -sf ~/.kubectx/kubens /usr/local/bin/kns && \
+    ln -sf ~/.kubectx/kubectx /usr/local/bin/kctx
 
 VOLUME ["/root/.config"]
