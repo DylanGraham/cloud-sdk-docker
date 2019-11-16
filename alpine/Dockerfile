@@ -8,6 +8,7 @@ ENV HELM_VERSION v2.14.3
 ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 ADD .bashrc /root/.bashrc
+ADD .vimrc /root/.vimrc
 RUN apk --no-cache add \
     curl \
     python \
@@ -19,6 +20,7 @@ RUN apk --no-cache add \
     git \
     gnupg \
     bash-completion \
+    vim \
     ncurses && \
     curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
