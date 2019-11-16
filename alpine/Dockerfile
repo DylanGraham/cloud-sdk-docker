@@ -7,6 +7,7 @@ ENV HELM_VERSION v2.14.3
 
 ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
+ADD .bashrc /root/.bashrc
 RUN apk --no-cache add \
     curl \
     python \
