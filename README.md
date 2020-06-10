@@ -21,7 +21,7 @@ The full repository name for Docker Hub is `google/cloud-sdk`.
   no components pre-installed, Debian-based)
 * `:alpine`,  `:VERSION-alpine`: (smallest image
   with no additional components installed, Alpine-based)
-* `:component_based`, `:VERSION`: (Similar to
+* `:debian_component_based`, `:VERSION`: (Similar to
   :latest but component installer based)
 
 &rarr; Check out [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) for available tags.
@@ -106,7 +106,24 @@ PROJECT_ID           NAME         PROJECT_NUMBER
 project_id1          GCPAppID     1071284184432
 
 ```
+### Components Installed in Each Tag
 
+|                    Component                   | :latest | :alpine | :slim | :debian_component_based |
+|:----------------------------------------------:|:-------:|:-------:|:-----:|:-----------------------:|
+|            App Engine Go Extensions            |    x    |         |       |            x            |
+|           BigQuery Command Line Tool           |    x    |    x    |   x   |            x            |
+|        Cloud Bigtable Command Line Tool        |    x    |         |       |            x            |
+|             Cloud Bigtable Emulator            |    x    |         |       |            x            |
+|         Cloud Datalab Command Line Tool        |    x    |         |       |            x            |
+|            Cloud Datastore Emulator            |    x    |         |       |            x            |
+|             Cloud Pub/Sub Emulator             |    x    |         |       |            x            |
+|         Cloud Storage Command Line Tool        |    x    |    x    |   x   |            x            |
+|              gcloud Alpha Commands             |    x    |         |   x   |            x            |
+|              gcloud Beta Commands              |    x    |         |   x   |            x            |
+|           gcloud app Java Extensions           |    x    |         |       |            x            |
+|          gcloud app Python Extensions          |    x    |         |       |            x            |
+| gcloud app Python Extensions (Extra Libraries) |    x    |         |       |            x            |
+|                     kubectl                    |    x    |         |   x   |            x            |
 
 ### Installing additional components
 
@@ -130,7 +147,7 @@ docker build --build-arg CLOUD_SDK_VERSION=159.0.0 \
 #### Alpine-based images
 
 To install additional components for Alpine-based images, create a Dockerfile
-that uses the gcloud image as the base image. For example, to add `kubectl` and
+that uses the `cloud-sdk` image as the base image. For example, to add `kubectl` and
 `app-engine-java` components:
 
 ```Dockerfile

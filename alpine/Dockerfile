@@ -1,28 +1,22 @@
-FROM docker:17.12.0-ce as static-docker-source
+FROM docker:19.03.11 as static-docker-source
 
-FROM alpine:3.10
-ARG CLOUD_SDK_VERSION=276.0.0
+FROM alpine:3.11
+ARG CLOUD_SDK_VERSION=296.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-ENV HELM_VERSION v2.14.3
+ENV CLOUDSDK_PYTHON=python3
 
 ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
-ADD .bashrc /root/.bashrc
-ADD .vimrc /root/.vimrc
 RUN apk --no-cache add \
-    curl \
-    python \
-    py-crcmod \
-    bash \
-    libc6-compat \
-    openssh-client \
-    openssl \
-    git \
-    gnupg \
-    bash-completion \
-    vim \
-    ncurses && \
-    curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+        curl \
+        python3 \
+        py3-crcmod \
+        bash \
+        libc6-compat \
+        openssh-client \
+        git \
+        gnupg \
+    && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     gcloud config set core/disable_usage_reporting true && \
@@ -37,5 +31,6 @@ RUN apk --no-cache add \
     git clone https://github.com/ahmetb/kubectx.git ~/.kubectx && \
     ln -sf ~/.kubectx/kubens /usr/local/bin/kns && \
     ln -sf ~/.kubectx/kubectx /usr/local/bin/kctx
-
+RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]
+
