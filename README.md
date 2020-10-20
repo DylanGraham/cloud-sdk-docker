@@ -21,7 +21,7 @@ The full repository name for Docker Hub is `google/cloud-sdk`.
   no components pre-installed, Debian-based)
 * `:alpine`,  `:VERSION-alpine`: (smallest image
   with no additional components installed, Alpine-based)
-* `:debian_component_based`, `:VERSION`: (Similar to
+* `:debian_component_based`, `:VERSION-debian_component_based`: (Similar to
   :latest but component installer based)
 
 &rarr; Check out [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) for available tags.
@@ -55,10 +55,16 @@ or use a particular version number:
 docker run gcr.io/google.com/cloudsdktool/cloud-sdk:260.0.0 gcloud version
 ```
 
-Then, authenticate by running:
+You can authenticate `gcloud` with your user credentials by running [`gcloud auth login`](https://cloud.google.com/sdk/gcloud/reference/auth/login):
 
 ```
 docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login
+```
+
+If you need to authenticate any program that uses the Google Cloud APIs, you need to pass the `--update-adc` option:
+
+```
+docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login --update-adc
 ```
 
 Once you authenticate successfully, credentials are preserved in the volume of
@@ -78,7 +84,7 @@ instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29 
 > other containers.
 
 
-Alternatively, you can use use `auth/credential_file_override` property to set a path to a mounted service account
+Alternatively, you can use `auth/credential_file_override` property to set a path to a mounted service account
 and then the config to read that using `CLOUDSDK_CONFIG` environment variable.
 
 for example, `mycloud` configuration below has the `auth/credential_file_override` already set and points towards a certificate file
@@ -108,32 +114,40 @@ project_id1          GCPAppID     1071284184432
 ```
 ### Components Installed in Each Tag
 
-|                    Component                   | :latest | :alpine | :slim | :debian_component_based |
-|:----------------------------------------------:|:-------:|:-------:|:-----:|:-----------------------:|
-|            App Engine Go Extensions            |    x    |         |       |            x            |
-|           BigQuery Command Line Tool           |    x    |    x    |   x   |            x            |
-|        Cloud Bigtable Command Line Tool        |    x    |         |       |            x            |
-|             Cloud Bigtable Emulator            |    x    |         |       |            x            |
-|         Cloud Datalab Command Line Tool        |    x    |         |       |            x            |
-|            Cloud Datastore Emulator            |    x    |         |       |            x            |
-|             Cloud Pub/Sub Emulator             |    x    |         |       |            x            |
-|         Cloud Storage Command Line Tool        |    x    |    x    |   x   |            x            |
-|              gcloud Alpha Commands             |    x    |         |   x   |            x            |
-|              gcloud Beta Commands              |    x    |         |   x   |            x            |
-|           gcloud app Java Extensions           |    x    |         |       |            x            |
-|          gcloud app Python Extensions          |    x    |         |       |            x            |
-| gcloud app Python Extensions (Extra Libraries) |    x    |         |       |            x            |
-|                     kubectl                    |    x    |         |       |            x            |
+|                    Component                         | :latest | :alpine | :slim | :debian_component_based |
+|:----------------------------------------------------:|:-------:|:-------:|:-----:|:-----------------------:|
+| App Engine Go Extensions                             |    x    |         |       |            x            |
+| Appctl                                               |         |         |       |                         |
+| BigQuery Command Line Tool                           |    x    |    x    |   x   |            x            |
+| Cloud Bigtable Command Line Tool                     |    x    |         |       |            x            |
+| Cloud Bigtable Emulator                              |    x    |         |       |            x            |
+| Cloud Datalab Command Line Tool                      |    x    |         |       |            x            |
+| Cloud Datastore Emulator                             |    x    |         |       |            x            |
+| Cloud Firestore Emulator                             |    x    |         |       |                         |
+| Cloud Pub/Sub Emulator                               |    x    |         |       |            x            |
+| Cloud SDK Core Libraries                             |    x    |    x    |   x   |            x            |
+| Cloud SQL Proxy                                      |         |         |       |                         |
+| Cloud Spanner Emulator                               |    x    |         |       |                         |
+| Cloud Storage Command Line Tool                      |    x    |    x    |   x   |            x            |
+| Emulator Reverse Proxy                               |         |         |       |                         |
+| Google Cloud Build Local Builder                     |         |         |       |                         |
+| Google Container Registry's Docker credential helper |         |         |       |                         |
+| Kind                                                 |         |         |       |                         |
+| Kustomize                                            |         |         |       |                         |
+| Minikube                                             |         |         |       |                         |
+| Nomos CLI                                            |         |         |       |                         |
+| Skaffold                                             |         |         |       |                         |
+| anthos-auth                                          |         |         |       |                         |
+| gcloud Alpha Commands                                |    x    |         |   x   |            x            |
+| gcloud Beta Commands                                 |    x    |         |   x   |            x            |
+| gcloud app Java Extensions                           |    x    |         |       |            x            |
+| gcloud app Python Extensions                         |    x    |         |       |            x            |
+| gcloud app Python Extensions (Extra Libraries)       |    x    |         |       |            x            |
+| kpt                                                  |    x    |         |       |                         |
+| kubectl                                              |    x    |         |   x   |            x            |
+
 
 ### Installing additional components
-
-By default, [all gcloud components
-are](https://cloud.google.com/sdk/downloads#apt-get) installed on the default
-images (`gcr.io/google.com/cloudsdktool/cloud-sdk:latest` and `gcr.io/google.com/cloudsdktool/cloud-sdk:VERSION`).
-
-The `gcr.io/google.com/cloudsdktool/cloud-sdk:slim` and `gcr.io/google.com/cloudsdktool/cloud-sdk:alpine` images do not contain
-additional components pre-installed. You can extend these images by following
-the instructions below:
 
 #### Debian-based images
 
