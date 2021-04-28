@@ -7,11 +7,9 @@ line tools of Google Cloud SDK (`gcloud`, `gsutil`, `bq`) as well several
 [additional components](https://cloud.google.com/sdk/downloads#apt-get).
 
 ## Repositories
-The Google Cloud SDK Docker Image is hosted on both [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) and [Docker Hub](https://hub.docker.com/r/google/cloud-sdk/).
+The Google Cloud SDK Docker Image is hosted on [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk).
 
 The full repository name for Container Registry is `gcr.io/google.com/cloudsdktool/cloud-sdk`.
-
-The full repository name for Docker Hub is `google/cloud-sdk`.
 
 ## Supported tags
 
@@ -38,8 +36,6 @@ To use this image, pull from [Container Registry](https://gcr.io/google.com/clou
 ```
 docker pull gcr.io/google.com/cloudsdktool/cloud-sdk:latest
 ```
-
-(Note: To pull from Docker Hub, replace all instances of `gcr.io/google.com/cloudsdktool/cloud-sdk` with `google/cloud-sdk`.)
 
 Verify the install
 
@@ -131,7 +127,6 @@ project_id1          GCPAppID     1071284184432
 | Emulator Reverse Proxy                               |         |         |       |                         |            |
 | Google Cloud Build Local Builder                     |         |         |       |                         |            |
 | Google Container Registry's Docker credential helper |         |         |       |                         |            |
-| Kind                                                 |         |         |       |                         |            |
 | Kustomize                                            |         |         |       |                         |            |
 | Minikube                                             |         |         |       |                         |            |
 | Nomos CLI                                            |         |         |       |                         |            |
@@ -142,8 +137,9 @@ project_id1          GCPAppID     1071284184432
 | gcloud app Java Extensions                           |    x    |         |       |            x            |            |
 | gcloud app Python Extensions                         |    x    |         |       |            x            |            |
 | gcloud app Python Extensions (Extra Libraries)       |    x    |         |       |            x            |            |
-| kpt                                                  |    x    |         |       |                         |            |
-| kubectl                                              |    x    |         |   x   |            x            |            |
+| kpt                                                  |    x    |         |       |            x            |            |
+| kubectl                                              |    x    |         |       |            x            |            |
+| local-extract                                        |    x    |         |       |            x            |            |
 
 
 ### Installing additional components

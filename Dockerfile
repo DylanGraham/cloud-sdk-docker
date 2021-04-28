@@ -1,7 +1,7 @@
 FROM docker:19.03.11 as static-docker-source
 
 FROM debian:buster
-ARG CLOUD_SDK_VERSION=320.0.0
+ARG CLOUD_SDK_VERSION=338.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
@@ -32,12 +32,15 @@ RUN apt-get -qqy update && apt-get install -qqy \
         google-cloud-sdk-firestore-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-spanner-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-cbt=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-kpt=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-local-extract=${CLOUD_SDK_VERSION}-0 \
         kubectl && \
     gcloud --version && \
     docker --version && kubectl version --client
 RUN apt-get install -qqy \
         gcc \
         python3-pip
+RUN pip3 install --upgrade pip
 RUN pip3 install pyopenssl
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
