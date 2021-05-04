@@ -1,6 +1,7 @@
 FROM docker:19.03.11 as static-docker-source
 
 FROM alpine:3.13
+ARG GH_VERSION=1.9.2
 ARG CLOUD_SDK_VERSION=338.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
@@ -20,8 +21,12 @@ RUN apk --no-cache add \
     openssl \
     ncurses \
     bash-completion \
-    socat \
-    && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    socat && \
+    wget https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.tar.gz && \
+    tar xf gh_${GH_VERSION}_linux_amd64.tar.gz && \
+    install -v gh_${GH_VERSION}_linux_amd64/bin/gh /usr/local/bin && \
+    rm -rf gh_${GH_VERSION}_linux_amd64* && \
+    curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     gcloud config set core/disable_usage_reporting true && \
