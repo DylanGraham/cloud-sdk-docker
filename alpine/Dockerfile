@@ -6,8 +6,6 @@ ARG CLOUD_SDK_VERSION=338.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
-ADD .bashrc /root/.bashrc
-ADD .vimrc /root/.vimrc
 RUN apk --no-cache add \
     curl \
     python3 \
@@ -18,6 +16,7 @@ RUN apk --no-cache add \
     openssh-client \
     git \
     gnupg \
+    vim \
     openssl \
     ncurses \
     bash-completion \
