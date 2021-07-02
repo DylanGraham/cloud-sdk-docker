@@ -1,10 +1,12 @@
 FROM docker:19.03.11 as static-docker-source
 
 FROM debian:buster-slim
-ARG CLOUD_SDK_VERSION=338.0.0
+ARG CLOUD_SDK_VERSION=347.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
+RUN groupadd -r -g 1000 cloudsdk && \
+    useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 ARG INSTALL_COMPONENTS
 RUN mkdir -p /usr/share/man/man1/
 RUN apt-get update -qqy && apt-get install -qqy \
